@@ -15,22 +15,24 @@ def load_fish():
     fish_frame = pd.DataFrame(columns=(0,1,2,3,4,5,6,7,8), index = [0])
     for x in range(9):
         fish_frame[x] = len(np.where(fish == x)[0])
+        
     return fish, fish_frame
 
 def grow_in_place(df):
     
-    _df = df.copy(deep=True)
+    df.loc[1] = df.loc[0].values
+    _df = df.loc[1]
     
     for x in range(1,9): # all fish lose a day
-        df[x-1] += _df[x]
-        df[x] -= _df[x]
+        df[x-1][0] += _df[x]
+        df[x][0] -= _df[x]
     
-    df[6] += _df[0] # all 0s become 6s
-    df[0] -= _df[0]
+    df[6][0] += _df[0] # all 0s become 6s
+    df[0][0] -= _df[0]
     
-    df[8] += _df[0] # all 0s become new 8s
+    df[8][0]+= _df[0] # all 0s become new 8s
     
-    return df
+    return df.drop(index=1)
 
 # Combined part 1 and 2 for simplicity
 for parts in [80, 256]:
