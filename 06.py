@@ -59,4 +59,28 @@ for parts in [80, 256]:
         fish_que[6] += _0
     print(sum(fish_que))
 
+# Adding rows to pandas out of curiosity
+def grow_dataframe(df):
     
+    idx = df.index.values[-1]
+    
+    df.loc[idx+1] = df.loc[idx].values
+    _df = df.loc[idx]
+    
+    for x in range(1,9): # all fish lose a day
+        df[x-1][idx + 1] += _df[x]
+        df[x][idx + 1] -= _df[x]
+    
+    df[6][idx + 1] += _df[0] # all 0s become 6s
+    df[0][idx + 1] -= _df[0]
+    
+    df[8][idx + 1]+= _df[0] # all 0s become new 8s
+    
+    return df
+
+fish, fish_frame = load_fish()
+for d in range(256):
+    grow_dataframe(fish_frame)
+    
+print(sum(fish_frame.loc[80].values))
+print(sum(fish_frame.loc[256].values))
