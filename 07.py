@@ -17,6 +17,9 @@ print(sum(np.abs(crabs - np.median(crabs))))
 def sum_to_end(num):
     return sum(np.arange(num+1))
 
+# The answer is on either side of the mean
 mn = int(np.floor(crabs.mean()))
+mx = int(np.ceil(crabs.mean()))
 
-print(sum(list(map(sum_to_end, np.abs(crabs - mn)))))
+fuel = [sum(list(map(sum_to_end, np.abs(crabs - x)))) for x in [mn, mx]]
+print(min(fuel))
