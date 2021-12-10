@@ -99,8 +99,6 @@ for c, o  in zip(codes, outputs):
     digits = find_digits(c)
     
     vals = np.array(c.split(' '))
-    
-
          
     # Replace the output letters
     new_o = []
@@ -123,6 +121,5 @@ for c, o  in zip(codes, outputs):
                     + 10*sevensegment[outnums[2]] \
                     + sevensegment[outnums[3]]
           
-            
-            
+print(output_total)       
                 
