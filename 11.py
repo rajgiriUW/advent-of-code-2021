@@ -185,7 +185,7 @@ def aniStepFlash(octopi, ax, steps=1, cmap='Spectral_r',
 
     totalFlashes = 0
     skip = int(skip)
-    with imageio.get_writer(fname, mode='I', duration=0.2) as writer:
+    with imageio.get_writer(fname, mode='I', duration=duration) as writer:
 
         for i in range(int(steps)):
             
