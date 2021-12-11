@@ -216,4 +216,4 @@ def aniStepFlash(octopi, ax, steps=1, cmap='Spectral_r',
     
     return octopi, totalFlashes
 
-_, _ = aniStepFlash(octopi, steps=266) # My answer was 265 to fully flash
+_, _ = aniStepFlash(octopi, ax=ax, steps=268, cmap='viridis', skip=10, duration=0.5)
