@@ -115,7 +115,7 @@ def synced(octopi):
             input octopus array of floats or ints
     Returns
         bool: 
-            if all the same value (True), else Falseh
+            if all the same value (True), else False
     
     '''
     sums = np.arange(10)*octopi.shape[0]*octopi.shape[1] 
@@ -135,3 +135,85 @@ while not synced(octopi):
     octopi, totalFlashes = stepFlash(octopi, steps=1)
     
 print(sync)
+
+#%% Animation
+import matplotlib.pyplot as plt
+import imageio 
+import seaborn_image as isns
+
+# matplotlib animation wasn't working
+fig, ax = plt.subplots(facecolor='white', figsize=(3,3))
+def aniStepFlash(octopi, ax, steps=1, cmap='Spectral_r', 
+                 repeatDelay = 3, skip=25, duration=0.2,
+                 fname='11_octopi.gif'):
+    '''
+    Returns the octopus array after a number of steps
+    
+    Parameters:
+        octopi : numpy.ndArray
+            input octopus array of floats or ints
+        steps : int or float
+            Number of steps to cycle the octopi array
+            Will be forced to an int
+        ax : matplotlib.axes._subplots.AxesSubplot
+            handle to the matplotlib Axis object
+        cmap : str
+            Any matplotlib valid colormap
+        repeatDelay : int
+            Adds a number of frames at the end to delay the loop
+        skip : int
+            Number of steps to skip between saved animated frames
+        duration : float
+            Seconds to wait between frames
+        fname : str
+            Filename
+            
+    Returns:
+        octopi : numpy.ndArray
+            Modified octopus array after "steps" number of steps
+        totalFlashes: int
+            The total times octopi were > 9 after "steps" number of steps
+    
+    Returns:
+        octopi : numpy.ndarray
+            Modified octopus array
+        totalFlashes : int
+            The total times octopi were > 9 
+        ims : list
+            The list of all resulting plots per loop, for us in matplotlib.animation
+    '''    
+
+    totalFlashes = 0
+    skip = int(skip)
+    with imageio.get_writer(fname, mode='I', duration=0.2) as writer:
+
+        for i in range(int(steps)):
+            
+            if i % skip == 0:
+                ax.set_title('Frame ' + str(i))
+                im0 = isns.imshow(ax=ax, data=octopi, 
+                                  cmap=cmap, 
+                                  vmin=-1, vmax=9) # for visualization
+            
+                print('Saving frame', i)
+                plt.savefig('_temp.png')
+                img = imageio.imread('_temp.png')
+                writer.append_data(img)
+            
+            octopi, _t = flash(octopi)
+            totalFlashes += _t
+    
+        #artificially add a repeat delay of 10 frames
+        ax.set_title('Frame ' + str(i))
+        im0 = isns.imshow(ax=ax, data=octopi, 
+                          cmap=cmap, 
+                          vmin=-1, vmax=9) # for visualization
+        plt.savefig('_temp.png')
+        img = imageio.imread('_temp.png')
+        print('Saving last frame', i)
+        for i in range(int(repeatDelay)):
+            writer.append_data(img)        
+    
+    return octopi, totalFlashes
+
+_, _ = aniStepFlash(octopi, steps=266) # My answer was 265 to fully flash
