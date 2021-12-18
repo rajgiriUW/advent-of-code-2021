@@ -161,6 +161,6 @@ for n, vx in enumerate(vel_x):
             hit_map[m, n] = 1
         
 plt.figure()
-plt.imshow(hit_map, extent=[vel_y[0], vel_y[-1], vel_x[0], vel_x[-1]], origin='lower')
+plt.imshow(hit_map, extent=[vel_x[0], vel_x[-1], vel_y[0], vel_y[-1]], origin='lower')
 plt.figure()
 plt.imshow(pos_map, extent=[vel_x[0], vel_x[-1], vel_y[0], vel_y[-1]], origin='lower')
