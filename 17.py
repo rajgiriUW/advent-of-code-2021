@@ -146,8 +146,8 @@ import matplotlib.pyplot as plt
 
 xr, yr = np.meshgrid(vel_x, vel_y)
 vel_x = np.arange(0, 500)
-vel_y = np.arange(-500, 500)
-pos_map = np.zeros([len(vel_y), len(vel_x)])
+vel_y = np.arange(-100, 500)
+pos_map = np.ones([len(vel_y), len(vel_x)])
 hit_map = np.zeros([len(vel_y), len(vel_x)])
 for n, vx in enumerate(vel_x):
     
@@ -159,7 +159,7 @@ for n, vx in enumerate(vel_x):
         if in_target:
             
             hit_map[m,n] = 1
-        pos_map[m, n] = _ymx
+            pos_map[m, n] = _ymx
         
 plt.figure()
 plt.imshow(hit_map, extent=[vel_x[0], vel_x[-1], vel_y[0], vel_y[-1]])
