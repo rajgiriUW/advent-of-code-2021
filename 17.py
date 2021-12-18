@@ -132,7 +132,7 @@ def test_velocities(start_pos, vel_x, vel_y, target_rows, target_cols):
 
 # Part 1 and 2
 vel_x = np.arange(0, 500)
-vel_y = np.arange(-500, 500)
+vel_y = np.arange(-200, 500)
 start_pos = [0, 0]
 #start_vel = (6, 9)
 
@@ -146,22 +146,21 @@ import matplotlib.pyplot as plt
 
 xr, yr = np.meshgrid(vel_x, vel_y)
 vel_x = np.arange(0, 500)
-vel_y = np.arange(-100, 500)
-pos_map = np.ones([len(vel_y), len(vel_x)])
-hit_map = np.zeros([len(vel_y), len(vel_x)])
+vel_y = np.arange(-200, 500)
+pos_map = np.zeros([len(vel_y), len(vel_x)]).astype(int)
+hit_map = np.zeros([len(vel_y), len(vel_x)]).astype(int)
 for n, vx in enumerate(vel_x):
     
     for m, vy in enumerate(vel_y):
         
         _, _, _ymx, in_target, missed_target , _ = fire_cannon(start_pos, (vx, vy), 
                                                                target_rows, target_cols)
-
+        pos_map[m, n] = _ymx
         if in_target:
             
-            hit_map[m,n] = 1
-            pos_map[m, n] = _ymx
+            hit_map[m, n] = 1
         
 plt.figure()
-plt.imshow(hit_map, extent=[vel_x[0], vel_x[-1], vel_y[0], vel_y[-1]])
+plt.imshow(hit_map, extent=[vel_y[0], vel_y[-1], vel_x[0], vel_x[-1]], origin='lower')
 plt.figure()
-plt.imshow(pos_map, extent=[vel_x[0], vel_x[-1], vel_y[0], vel_y[-1]])
+plt.imshow(pos_map, extent=[vel_x[0], vel_x[-1], vel_y[0], vel_y[-1]], origin='lower')
